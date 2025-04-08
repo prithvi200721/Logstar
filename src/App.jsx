@@ -29,7 +29,7 @@ const App = () => {
   const [userLogs, setUserLogs] = useState({});
   const [expandedUsers, setExpandedUsers] = useState({});
 
-  const ADMIN_SECRET = '12345';
+  const ADMIN_SECRET = 'supersecure123';
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
