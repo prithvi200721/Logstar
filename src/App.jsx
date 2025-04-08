@@ -29,7 +29,7 @@ const App = () => {
   const [userLogs, setUserLogs] = useState({});
   const [expandedUsers, setExpandedUsers] = useState({});
 
-  const ADMIN_SECRET = '12345';
+  const ADMIN_SECRET = 'applepineapple';
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -92,16 +92,19 @@ const App = () => {
     fetchSelfLogs(admission);
   };
 
-  const handleAdminLogin = async () => {
-    if (adminPassword === ADMIN_SECRET) {
-      setAdmin(true);
-      const usersSnap = await getDocs(collection(db, 'users'));
-      const users = usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setAllUsers(users);
-    } else {
-      alert('Wrong password');
-    }
-  };
+  
+
+const handleAdminLogin = async () => {
+  if (adminPassword === ADMIN_SECRET) {
+    setAdmin(true);
+    const usersSnap = await getDocs(collection(db, 'users'));
+    const users = usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setAllUsers(users);
+  } else {
+    alert('Wrong password');
+  }
+};
+
 
   const toggleLogs = async (userId) => {
     setExpandedUsers(prev => ({ ...prev, [userId]: !prev[userId] }));
@@ -290,7 +293,7 @@ const App = () => {
       )}
 
       <footer className="text-center text-gray-500 text-sm mt-8">
-        Made by <a href="https://your-link.com" className="underline">Prithvi</a>
+        Made by <a href="Prithvi.R.Patil" className="underline">Prithvi</a>
       </footer>
     </div>
   );
