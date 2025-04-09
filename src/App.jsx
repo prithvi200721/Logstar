@@ -17,6 +17,7 @@ import { downloadCSV } from './utils/csv';
 const App = () => {
   const [admission, setAdmission] = useState('');
   const [name, setName] = useState('');
+  const [section, setSection] = useState('SrIIT');
   const [userExists, setUserExists] = useState(null);
   const [work, setWork] = useState('');
   const [stars, setStars] = useState('');
@@ -53,6 +54,7 @@ const App = () => {
     if (docSnap.exists()) {
       setUserExists(true);
       setName(docSnap.data().name);
+      setSection(docSnap.data().section || 'SrIIT');
       setUserData({ id: docSnap.id, ...docSnap.data() });
       fetchSelfLogs(admission);
     } else {
@@ -61,13 +63,14 @@ const App = () => {
   };
 
   const handleRegister = async () => {
-    if (!name) return;
+    if (!name || !section) return;
     await setDoc(doc(db, 'users', admission), {
       name,
+      section,
       totalStars: 0
     });
     setUserExists(true);
-    setUserData({ id: admission, name, totalStars: 0 });
+    setUserData({ id: admission, name, section, totalStars: 0 });
     fetchSelfLogs(admission);
   };
 
@@ -77,6 +80,7 @@ const App = () => {
     const newTotal = (userData.totalStars || 0) + parseInt(stars);
     await setDoc(userRef, {
       name,
+      section,
       totalStars: newTotal
     });
 
@@ -149,9 +153,16 @@ const App = () => {
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="Enter Name"
-            className="p-2 rounded bg-gray-800 text-white border border-gray-600 mb-2"
+            className="p-2 rounded bg-gray-800 text-white border border-gray-600 mb-2 block"
           />
-          <br />
+          <select
+            value={section}
+            onChange={e => setSection(e.target.value)}
+            className="p-2 rounded bg-gray-800 text-white border border-gray-600 mb-2 block"
+          >
+            <option value="SrIIT">SrIIT</option>
+            <option value="SrN120">SrN120</option>
+          </select>
           <button onClick={handleRegister} className="bg-green-600 px-4 py-2 rounded">
             Register
           </button>
@@ -161,7 +172,8 @@ const App = () => {
       {userExists && userData && (
         <div className="mb-10">
           <h2 className="text-xl mb-2">Hello, {userData.name} 👋</h2>
-          <p className="mb-4">Total Stars: ⭐ {userData.totalStars}</p>
+          <p className="mb-1">Admission: {userData.id}</p>
+          <p className="mb-4">Section: {userData.section} — Total Stars: ⭐ {userData.totalStars}</p>
 
           <div className="flex gap-2 mb-4">
             <input
@@ -207,14 +219,16 @@ const App = () => {
             <tr className="text-green-300">
               <th className="p-2">Name</th>
               <th className="p-2">Admission No.</th>
+              <th className="p-2">Section</th>
               <th className="p-2">Stars ⭐</th>
             </tr>
           </thead>
           <tbody>
-            {leaderboard.map((u, i) => (
+            {leaderboard.map((u) => (
               <tr key={u.id} className="border-t border-gray-700">
                 <td className="p-2">{u.name}</td>
                 <td className="p-2">{u.id}</td>
+                <td className="p-2">{u.section || '-'}</td>
                 <td className="p-2">{u.totalStars}</td>
               </tr>
             ))}
@@ -244,7 +258,7 @@ const App = () => {
             <div key={user.id} className="mb-4 border-b border-gray-700 pb-2">
               <div className="flex justify-between items-center">
                 <p>
-                  <strong>{user.name}</strong> ({user.id}) — ⭐ {user.totalStars}
+                  <strong>{user.name}</strong> ({user.id}) — Section {user.section || '-'} — ⭐ {user.totalStars}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -290,7 +304,7 @@ const App = () => {
       )}
 
       <footer className="text-center text-gray-500 text-sm mt-8">
-        Made by <a href="https://your-link.com" className="underline">Prithvi</a>
+        Made by <a href="Prithvi.R.Patil" className="underline">Prithvi</a>
       </footer>
     </div>
   );
