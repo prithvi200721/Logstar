@@ -304,7 +304,7 @@ const App = () => {
       )}
 
       <footer className="text-center text-gray-500 text-sm mt-8">
-        Made by <a href="Prithvi.R.Patil" className="underline">Prithvi</a>
+        Made by <a href="Prithvi.R.Patil" className="underline">Vivek</a>
       </footer>
     </div>
   );
