@@ -162,6 +162,8 @@ const App = () => {
           >
             <option value="SrIIT">SrIIT</option>
             <option value="SrN120">SrN120</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
           </select>
           <button onClick={handleRegister} className="bg-green-600 px-4 py-2 rounded">
             Register
